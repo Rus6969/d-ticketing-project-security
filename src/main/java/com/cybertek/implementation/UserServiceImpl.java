@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService {
     private MapperUtil mapperUtil;
     private PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepository userRepository, ProjectService projectService, TaskService taskService, MapperUtil mapperUtil, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepository userRepository, @Lazy ProjectService projectService, TaskService taskService, MapperUtil mapperUtil, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.projectService = projectService;
         this.taskService = taskService;
@@ -57,7 +57,7 @@ public class UserServiceImpl implements UserService {
         dto.setEnabled(true);
 
        User obj =  mapperUtil.convert(dto,new User());
-       obj.setPassWord();
+       obj.setPassWord(passwordEncoder.encode(obj.getPassWord()));
        userRepository.save(obj);
     }
 
